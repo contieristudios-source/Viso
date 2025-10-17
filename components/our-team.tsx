@@ -9,17 +9,21 @@ const team = [
   {
     name: "Lara Ceretta",
     position: "Diretora de Arte",
-    image: "/team-lara.jpg",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_0098_jpg-qrLnOtQEne2QpIvCYL5aE7zQnvhVDU.jpg",
+    objectPosition: "center 30%",
   },
   {
     name: "Enzo Contieri",
     position: "Estrategista de Marca",
-    image: "/team-enzo.jpg",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gemini_Generated_Image_dud4q2dud4q2dud4-L1Db6lzWIiUD4UN0IegltoK3KhX74c.png",
+    objectPosition: "center center",
   },
   {
     name: "Luca Duarte",
     position: "Diretor Operacional",
-    image: "/team-luca.jpg",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/DSC00817.ARW-6cyS7xOcXVc6MldGEV9AMz8MuTrfSg.jpg",
+    objectPosition: "center 35%",
   },
 ]
 
@@ -158,6 +162,7 @@ export function OurTeam() {
                     src={member.image || "/placeholder.svg"}
                     alt={member.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    style={{ objectPosition: member.objectPosition }}
                   />
                 </div>
 
@@ -165,7 +170,7 @@ export function OurTeam() {
                   <h3
                     className="text-xl font-semibold tracking-tight transition-colors duration-500"
                     style={{
-                      color: `rgb(${10 + (245 - 10) * scrollProgress}, ${10 + (241 - 10) * scrollProgress}, ${10 + (230 - 10) * scrollProgress})`,
+                      color: `rgb(${10 + (245 - 10) * scrollProgress}, ${10 + (241 - 10) * (1 - scrollProgress)}, ${10 + (230 - 10) * (1 - scrollProgress)})`,
                     }}
                   >
                     {member.name}
@@ -210,6 +215,7 @@ export function OurTeam() {
                         src={member.image || "/placeholder.svg"}
                         alt={member.name}
                         className="w-full h-full object-cover"
+                        style={{ objectPosition: member.objectPosition }}
                       />
                     </div>
 
