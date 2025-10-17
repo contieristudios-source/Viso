@@ -5,6 +5,7 @@ import type React from "react"
 import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { X } from "lucide-react"
+import { createClient } from "@/lib/supabase/client"
 
 interface WhatWeOfferProps {
   isFormOpen: boolean
@@ -42,7 +43,11 @@ export function WhatWeOffer({ isFormOpen, setIsFormOpen }: WhatWeOfferProps) {
     name: "",
     email: "",
     phone: "",
+    company: "",
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitSuccess, setSubmitSuccess] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -68,11 +73,38 @@ export function WhatWeOffer({ isFormOpen, setIsFormOpen }: WhatWeOfferProps) {
     return () => observer.disconnect()
   }, [])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Form submitted:", formData)
-    setIsFormOpen(false)
-    setFormData({ name: "", email: "", phone: "" })
+    setIsSubmitting(true)
+    setSubmitError(null)
+
+    try {
+      const supabase = createClient()
+
+      const { error } = await supabase.from("contacts").insert([
+        {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          company: formData.company,
+        },
+      ])
+
+      if (error) throw error
+
+      setSubmitSuccess(true)
+      setFormData({ name: "", email: "", phone: "", company: "" })
+
+      setTimeout(() => {
+        setIsFormOpen(false)
+        setSubmitSuccess(false)
+      }, 2000)
+    } catch (error) {
+      console.error("Error submitting form:", error)
+      setSubmitError("Erro ao enviar formulário. Tente novamente.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -177,56 +209,83 @@ export function WhatWeOffer({ isFormOpen, setIsFormOpen }: WhatWeOfferProps) {
 
             <h3 className="text-2xl font-bold mb-6">Fale Conosco</h3>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2">
-                  Nome
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-secondary"
-                />
+            {submitSuccess ? (
+              <div className="text-center py-8">
+                <div className="text-green-500 text-5xl mb-4">✓</div>
+                <p className="text-lg font-medium">Mensagem enviada com sucesso!</p>
               </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium mb-2">
+                    Nome
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-secondary"
+                  />
+                </div>
 
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">
-                  E-mail Corporativo
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-secondary"
-                />
-              </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium mb-2">
+                    E-mail Corporativo
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-secondary"
+                  />
+                </div>
 
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium mb-2">
-                  Telefone
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-secondary"
-                />
-              </div>
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium mb-2">
+                    Telefone
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2 rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-secondary"
+                  />
+                </div>
 
-              <Button type="submit" className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90">
-                Enviar
-              </Button>
-            </form>
+                <div>
+                  <label htmlFor="company" className="block text-sm font-medium mb-2">
+                    Empresa (opcional)
+                  </label>
+                  <input
+                    type="text"
+                    id="company"
+                    name="company"
+                    value={formData.company}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-secondary"
+                  />
+                </div>
+
+                {submitError && <p className="text-sm text-red-500">{submitError}</p>}
+
+                <Button
+                  type="submit"
+                  className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Enviando..." : "Enviar"}
+                </Button>
+              </form>
+            )}
           </div>
         </div>
       )}
