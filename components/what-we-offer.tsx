@@ -6,6 +6,11 @@ import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { X } from "lucide-react"
 
+interface WhatWeOfferProps {
+  isFormOpen: boolean
+  setIsFormOpen: (open: boolean) => void
+}
+
 const services = [
   {
     title: "Aceleração de audiência",
@@ -31,14 +36,12 @@ const services = [
   },
 ]
 
-export function WhatWeOffer() {
+export function WhatWeOffer({ isFormOpen, setIsFormOpen }: WhatWeOfferProps) {
   const sectionRef = useRef<HTMLElement>(null)
-  const [isFormOpen, setIsFormOpen] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    message: "",
   })
 
   useEffect(() => {
@@ -69,7 +72,7 @@ export function WhatWeOffer() {
     e.preventDefault()
     console.log("Form submitted:", formData)
     setIsFormOpen(false)
-    setFormData({ name: "", email: "", phone: "", message: "" })
+    setFormData({ name: "", email: "", phone: "" })
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -84,7 +87,7 @@ export function WhatWeOffer() {
       <section id="what-we-offer" ref={sectionRef} className="min-h-screen py-24 px-6 relative overflow-hidden">
         <div className="container mx-auto max-w-7xl">
           <div className="mb-32 fade-item opacity-0">
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-balance">O que Oferecemos</h2>
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-balance">Services</h2>
           </div>
 
           <div className="space-y-32 mb-32">
@@ -184,7 +187,7 @@ export function WhatWeOffer() {
 
               <div>
                 <label htmlFor="email" className="block text-sm font-medium mb-2">
-                  E-mail
+                  E-mail Corporativo
                 </label>
                 <input
                   type="email"
@@ -209,21 +212,6 @@ export function WhatWeOffer() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-2 rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-secondary"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2">
-                  Mensagem
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={4}
-                  className="w-full px-4 py-2 rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-secondary resize-none"
                 />
               </div>
 

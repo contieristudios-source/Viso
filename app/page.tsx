@@ -1,3 +1,6 @@
+"use client"
+
+import { useState } from "react"
 import { Header } from "@/components/header"
 import { HeroSection } from "@/components/hero-section"
 import { WhoWeAre } from "@/components/who-we-are"
@@ -7,14 +10,16 @@ import { Footer } from "@/components/footer"
 import { PortfolioCollage } from "@/components/portfolio-collage"
 
 export default function Home() {
+  const [isFormOpen, setIsFormOpen] = useState(false)
+
   return (
     <main className="min-h-screen relative">
       <PortfolioCollage />
       <div className="relative z-10">
-        <Header />
+        <Header onOpenForm={() => setIsFormOpen(true)} />
         <HeroSection />
         <WhoWeAre />
-        <WhatWeOffer />
+        <WhatWeOffer isFormOpen={isFormOpen} setIsFormOpen={setIsFormOpen} />
         <OurTeam />
         <Footer />
       </div>
