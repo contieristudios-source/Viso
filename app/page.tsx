@@ -17,8 +17,12 @@ export default function Home() {
       <PortfolioCollage />
       <div className="relative z-10">
         <Header onOpenForm={() => setIsFormOpen(true)} />
-        <HeroSection />
-        <WhoWeAre />
+        <div className="px-4 md:px-8 lg:px-16 xl:px-24">
+          <HeroSection />
+        </div>
+        <div className="px-4 md:px-8 lg:px-16 xl:px-24">
+          <WhoWeAre />
+        </div>
         <WhatWeOffer isFormOpen={isFormOpen} setIsFormOpen={setIsFormOpen} />
         <OurTeam />
         <Footer />

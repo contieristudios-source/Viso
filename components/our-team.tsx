@@ -82,7 +82,7 @@ export function OurTeam() {
     <section
       id="our-team"
       ref={sectionRef}
-      className="min-h-screen py-32 px-6 relative transition-all duration-500"
+      className="min-h-screen py-32 px-6 md:px-12 lg:px-24 relative transition-all duration-500"
       style={{
         backgroundColor: `rgb(${10 + (245 - 10) * (1 - scrollProgress)}, ${10 + (241 - 10) * (1 - scrollProgress)}, ${10 + (230 - 10) * (1 - scrollProgress)})`,
       }}
@@ -115,7 +115,7 @@ export function OurTeam() {
         />
       </div>
 
-      <div className="container mx-auto max-w-7xl relative z-10">
+      <div className="container mx-auto max-w-6xl relative z-10">
         <div className="mb-24 text-center space-y-4 font-sans">
           <h2
             className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight transition-colors duration-500"
@@ -135,7 +135,7 @@ export function OurTeam() {
           </p>
         </div>
 
-        <div className="hidden md:grid md:grid-cols-3 gap-8 lg:gap-12">
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 max-w-5xl mx-auto">
           {team.map((member, index) => (
             <div
               key={index}
@@ -151,7 +151,7 @@ export function OurTeam() {
                   backdropFilter: "blur(20px)",
                 }}
               >
-                <div className="aspect-[3/4] max-h-[310px] overflow-hidden relative">
+                <div className="aspect-[3/4] w-full overflow-hidden relative">
                   <div
                     className="absolute inset-0 z-10 transition-opacity duration-500 group-hover:opacity-0"
                     style={{
@@ -189,7 +189,7 @@ export function OurTeam() {
           ))}
         </div>
 
-        <div className="md:hidden relative max-w-sm mx-auto font-sans">
+        <div className="md:hidden relative w-full max-w-md mx-auto font-sans">
           <div className="overflow-hidden rounded-2xl">
             <div
               className="flex transition-all duration-700 ease-out"
@@ -204,7 +204,7 @@ export function OurTeam() {
                       backdropFilter: "blur(20px)",
                     }}
                   >
-                    <div className="aspect-[3/4] max-h-[400px] overflow-hidden relative">
+                    <div className="aspect-[3/4] w-full overflow-hidden relative">
                       <div
                         className="absolute inset-0 z-10"
                         style={{

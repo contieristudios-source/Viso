@@ -84,8 +84,12 @@ export function WhatWeOffer({ isFormOpen, setIsFormOpen }: WhatWeOfferProps) {
 
   return (
     <>
-      <section id="what-we-offer" ref={sectionRef} className="min-h-screen py-24 px-6 relative overflow-hidden">
-        <div className="container mx-auto max-w-7xl">
+      <section
+        id="what-we-offer"
+        ref={sectionRef}
+        className="min-h-screen py-24 px-6 md:px-12 lg:px-24 relative overflow-hidden"
+      >
+        <div className="container mx-auto max-w-6xl">
           <div className="mb-32 fade-item opacity-0">
             <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-balance">Services</h2>
           </div>
@@ -94,7 +98,7 @@ export function WhatWeOffer({ isFormOpen, setIsFormOpen }: WhatWeOfferProps) {
             {services.map((service, index) => (
               <div
                 key={index}
-                className={`fade-item opacity-0 ${
+                className={`fade-item opacity-0 group ${
                   service.align === "right"
                     ? "text-right ml-auto"
                     : service.align === "center"
@@ -104,7 +108,7 @@ export function WhatWeOffer({ isFormOpen, setIsFormOpen }: WhatWeOfferProps) {
               >
                 <div className="space-y-6">
                   <h3
-                    className={`font-bold text-balance leading-tight transition-transform duration-500 hover:scale-105 ${
+                    className={`font-bold text-balance leading-tight transition-all duration-700 hover:scale-105 hover:tracking-wider cursor-default ${
                       index === 0
                         ? "text-6xl md:text-7xl"
                         : index === 1
@@ -113,11 +117,15 @@ export function WhatWeOffer({ isFormOpen, setIsFormOpen }: WhatWeOfferProps) {
                             ? "text-7xl md:text-8xl"
                             : "text-5xl md:text-6xl"
                     }`}
+                    style={{
+                      animation: `slideInFromSide 1s ease-out ${index * 0.2}s both`,
+                      animationName: service.align === "right" ? "slideInFromRight" : "slideInFromLeft",
+                    }}
                   >
                     {service.title}
                   </h3>
                   <p
-                    className={`text-lg md:text-xl text-muted-foreground leading-relaxed text-pretty transition-transform duration-700 hover:translate-x-4 max-w-4xl ${
+                    className={`text-lg md:text-xl text-muted-foreground leading-relaxed text-pretty transition-all duration-700 group-hover:translate-x-2 group-hover:text-foreground max-w-4xl ${
                       service.align === "right" ? "ml-auto" : service.align === "center" ? "mx-auto" : ""
                     }`}
                   >
@@ -126,9 +134,9 @@ export function WhatWeOffer({ isFormOpen, setIsFormOpen }: WhatWeOfferProps) {
                   <div
                     className={`h-px bg-gradient-to-r ${
                       service.align === "right"
-                        ? "from-transparent to-secondary/50"
-                        : "from-secondary/50 to-transparent"
-                    } w-full hover:w-3/4 transition-all duration-1000`}
+                        ? "from-transparent via-secondary/70 to-secondary/50"
+                        : "from-secondary/50 via-secondary/70 to-transparent"
+                    } w-full group-hover:w-3/4 transition-all duration-1000 group-hover:shadow-[0_0_20px_rgba(232,167,46,0.3)]`}
                   />
                 </div>
               </div>
@@ -137,7 +145,7 @@ export function WhatWeOffer({ isFormOpen, setIsFormOpen }: WhatWeOfferProps) {
 
           <div className="fade-item opacity-0 py-32 text-center relative overflow-hidden">
             <div className="relative z-10 max-w-5xl mx-auto space-y-8">
-              <h3 className="text-5xl md:text-6xl lg:text-7xl font-bold text-balance leading-tight tracking-tight">
+              <h3 className="text-5xl md:text-6xl lg:text-7xl font-bold text-balance leading-tight tracking-tight transition-all duration-500 hover:scale-105">
                 Pronto para construir
                 <br />
                 uma comunidade?
@@ -148,7 +156,7 @@ export function WhatWeOffer({ isFormOpen, setIsFormOpen }: WhatWeOfferProps) {
               <Button
                 size="lg"
                 onClick={() => setIsFormOpen(true)}
-                className="bg-secondary text-secondary-foreground hover:bg-secondary/90 hover:scale-105 transition-all duration-300 text-base md:text-lg px-10 py-6 mt-8"
+                className="bg-secondary text-secondary-foreground hover:bg-secondary/90 hover:scale-105 transition-all duration-300 text-base md:text-lg px-10 py-6 mt-8 shadow-lg hover:shadow-2xl"
               >
                 fale conosco
               </Button>
